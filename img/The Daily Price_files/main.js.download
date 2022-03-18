@@ -1,0 +1,67 @@
+let nums = Array.from(document.querySelectorAll(".calc .numbers input"));
+let sup = document.querySelector(".sup")
+let boxes = Array.from(document.querySelectorAll(".calc .boxes input"));
+var select = document.getElementById("lang");
+var multiDiv = document.querySelector(".calc .multi");
+var selectValue = "low";
+
+nums.forEach((num) => {
+    num.addEventListener("keyup", ()=> {
+        let makeNums = nums.map((num)=>{
+            return parseInt(num.value);
+        }).filter((num)=>{
+            return !isNaN(num);
+        })
+        if (makeNums.length == 0){
+            sup.innerHTML = "0"
+        }
+        let add = makeNums.reduce((acc,curr)=> {
+                return acc + curr ;
+        })
+        if(isNaN(add)){
+            sup.innerHTML = "Please Enter A Number"
+        }else {
+            sup.innerHTML = add;
+        }
+        select.onchange = function (){
+            selectValue = select.value;
+            if(selectValue == 'low'){
+                multiDiv.innerHTML = (add * 1450).toLocaleString("en-US");
+            }else if (selectValue == 'mid') {
+                multiDiv.innerHTML = (add * 1600).toLocaleString("en-US");
+            }else if (selectValue == 'high') {
+                multiDiv.innerHTML = (add * 1800).toLocaleString("en-US");
+            }else {
+                multiDiv.innerHTML = add.toLocaleString("en-US");
+            }
+        }
+    })
+})
+
+
+const btn1 = document.getElementById("btn1");
+const menu = document.querySelector(".menu");
+const menuLi = document.querySelectorAll(".menu li")
+
+btn1.addEventListener("click", () => {
+    menu.classList.toggle("active")
+    window.scrollTo(0,0)
+})
+menuLi.forEach((li)=> {
+    li.addEventListener("click", ()=> {
+        menu.classList.remove("active")
+    })
+})
+
+
+
+
+nums.forEach((num) => {
+    num.addEventListener("keyup", () => {
+        const myImg = document.querySelector(`[data-num="${num.id}"]`);
+        myImg.style.width = "40%"
+        if(!num.value){
+            myImg.style.width = '0%'
+        }
+    })
+})
